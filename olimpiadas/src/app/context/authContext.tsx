@@ -11,7 +11,7 @@ import React, {
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { UserApiResponse } from "../types/ApiResponse";
-import { profileRQ, logoutRQ } from "../app/api/auth";
+import { profileRQ, logoutRQ } from "../api/auth";
 // Estructura del contexto de autenticación
 interface AuthContextType {
   user: UserApiResponse | null;
@@ -61,10 +61,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     checkAuth();
   }, [checkAuth]);
 
-  // Función de login (se llama después de una respuesta exitosa de login/register)
-  // Ya que el token se guarda en una cookie httpOnly en el backend,
-  // esta función solo necesita disparar la verificación del perfil
-  // para actualizar el estado del frontend.
   const login = useCallback(async () => {
     await checkAuth(); // Vuelve a verificar la autenticación para obtener los datos del usuario
   }, [checkAuth]);

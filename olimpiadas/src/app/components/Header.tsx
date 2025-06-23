@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { usePathname } from "next/navigation";
+import toast from "react-hot-toast";
 
 import {
   User,
@@ -14,20 +15,44 @@ import {
   MountainSnow,
   ShoppingCart,
 } from "lucide-react";
+import { useAuth } from "../context/authContext";
 
 const Header = () => {
   const pathname = usePathname(); // Correctamente obtenido el pathname
   const [showMenu, setShowMenu] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
+  const { logout, isAuthenticated } = useAuth();
 
   const navItems = [
     { path: "/", label: "Vuelos", icon: Plane },
     { path: "/mispaquetes", label: "Paquetes", icon: Gift },
     { path: "/articulos/autos", label: "Autos", icon: Car },
     { path: "/articulos/hoteles", label: "Hoteles", icon: Hotel },
-    { path: "/articulos/excursiones", label: "Excursiones", icon: MountainSnow },
-    { path: "/carrito", label: "Carrito", icon: ShoppingCart }
+    {
+      path: "/articulos/excursiones",
+      label: "Excursiones",
+      icon: MountainSnow,
+    },
+    { path: "/carrito", label: "Carrito", icon: ShoppingCart },
   ];
+
+  const handleLogout = async () => {
+    if (isAuthenticated) await logout();
+    else {
+      toast.error("Debe Iniciar Sesión primero.", {
+        position: "top-center",
+        duration: 2000,
+        style: {
+          background: "#950000",
+          color: "#fff",
+        },
+        iconTheme: {
+          primary: "#fff",
+          secondary: "#950000",
+        },
+      });
+    }
+  };
 
   return (
     <header className="bg-[#183292] text-white shadow-md px-4 py-4">
@@ -41,7 +66,9 @@ const Header = () => {
         <div className="hidden sm:flex w-1/3 justify-center">
           <nav className="flex gap-6">
             {navItems
-              .filter((item) => !["/mispaquetes", "/carrito"].includes(item.path))
+              .filter(
+                (item) => !["/mispaquetes", "/carrito"].includes(item.path)
+              )
               .map(({ path, label, icon: Icon }) => {
                 const isActive = pathname === path; // Usando 'pathname' para la navegación de escritorio
                 return (
@@ -109,13 +136,20 @@ const Header = () => {
                     href="/login"
                     className="block px-4 py-2 hover:bg-gray-100 text-sm"
                   >
-                    Iniciar sesión
+                    Iniciar Sesión
                   </Link>
                   <Link
                     href="/register"
                     className="block px-4 py-2 hover:bg-gray-100 text-sm"
                   >
                     Registrarse
+                  </Link>
+                  <Link
+                    href="/"
+                    onClick={handleLogout}
+                    className="block px-4 py-2 hover:bg-gray-100 text-sm"
+                  >
+                    Cerrar Sesión
                   </Link>
                 </div>
               )}
@@ -148,10 +182,17 @@ const Header = () => {
 
           <div className="flex flex-col gap-2 border-t border-white/30 pt-3">
             <Link href="/login" className="text-sm hover:underline">
-              Iniciar sesión
+              Iniciar Sesión
             </Link>
             <Link href="/register" className="text-sm hover:underline">
               Registrarse
+            </Link>
+            <Link
+              href="/"
+              onClick={handleLogout}
+              className="text-sm hover:underline"
+            >
+              Cerrar Sesión
             </Link>
           </div>
         </nav>

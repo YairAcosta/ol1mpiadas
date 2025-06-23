@@ -1,4 +1,3 @@
-// src/app/(pages)/(user)/login/page.tsx
 "use client";
 import { useState } from "react";
 import Link from "next/link";
@@ -7,7 +6,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { UserLogin, formLogin } from "@/src/server/schemas/user.schema";
 import { FiEye, FiEyeOff } from "react-icons/fi";
-import { useAuth } from "@/src/context/authContext";
+import { useAuth } from "@/src/app/context/authContext";
 import { loginRQ } from "@/src/app/api/auth";
 
 function LoginEmpresa() {
@@ -88,9 +87,8 @@ function LoginEmpresa() {
                   type="email"
                   {...register("Email")}
                   placeholder="empresa@correo.com"
-                  className={`w-full border ${
-                    errors.Email ? "border-red-500" : "border-gray-300"
-                  } rounded-xl px-4 py-2.5 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-400 transition`}
+                  className={`w-full border ${errors.Email ? "border-red-500" : "border-gray-300"
+                    } rounded-xl px-4 py-2.5 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-400 transition`}
                 />
                 {errors.Email && (
                   <p className="text-sm text-red-600 mt-1">
@@ -112,9 +110,8 @@ function LoginEmpresa() {
                     type={showPassword ? "text" : "password"}
                     {...register("Contraseña")}
                     placeholder="••••••••"
-                    className={`w-full border ${
-                      errors.Contraseña ? "border-red-500" : "border-gray-300"
-                    } rounded-xl px-4 py-2.5 pr-12 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-400 transition`}
+                    className={`w-full border ${errors.Contraseña ? "border-red-500" : "border-gray-300"
+                      } rounded-xl px-4 py-2.5 pr-12 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-400 transition`}
                   />
                   <button
                     type="button"

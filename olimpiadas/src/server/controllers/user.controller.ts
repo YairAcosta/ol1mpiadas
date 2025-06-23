@@ -1,5 +1,3 @@
-// server/controllers/auth.controller.ts
-
 import { Request, Response } from "express";
 import { db } from '../db';
 import { ResultSetHeader, RowDataPacket } from "mysql2";

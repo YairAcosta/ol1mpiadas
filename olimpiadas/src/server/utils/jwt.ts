@@ -1,18 +1,14 @@
-// server/utils/jwt.ts
-
 import jwt from 'jsonwebtoken';
 import { TOKEN_SECRET } from '../config';
 
-// Define el payload que ESPERAS recibir para generar el token
 interface GenerateTokenPayload {
     id: number;
     email: string;
-    role: string; // Recibimos el rol de la BD ('user' o 'admin')
+    role: string;
 }
 
 export function generateToken(payload: GenerateTokenPayload): Promise<string> {
     return new Promise((resolve, reject) => {
-        // Construimos el payload JWT
         const jwtPayload = {
             id: payload.id,
             email: payload.email,
@@ -20,9 +16,9 @@ export function generateToken(payload: GenerateTokenPayload): Promise<string> {
         };
 
         jwt.sign(
-            jwtPayload, // Usamos el payload que acabamos de construir
+            jwtPayload,
             TOKEN_SECRET,
-            { expiresIn: '4h' }, // El token expirará en 1 hora
+            { expiresIn: '4h' },
             (err, token) => {
                 if (err) {
                     console.error("Error al generar token:", err);

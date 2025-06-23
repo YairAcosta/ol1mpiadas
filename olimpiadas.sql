@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 19-06-2025 a las 05:44:32
+-- Tiempo de generación: 23-06-2025 a las 03:58:09
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -89,20 +89,34 @@ CREATE TABLE `paquete` (
   `Id` int(11) NOT NULL,
   `Codigo` varchar(50) DEFAULT NULL,
   `Id_estado` int(11) DEFAULT NULL,
-  `Id_user` int(11) DEFAULT NULL
+  `Id_user` int(11) DEFAULT NULL,
+  `Adultos` int(11) NOT NULL DEFAULT 0,
+  `Menores` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `paquete`
 --
 
-INSERT INTO `paquete` (`Id`, `Codigo`, `Id_estado`, `Id_user`) VALUES
-(2, 'PKG-YFZ598', 1, 3),
-(3, 'PKG-26U798', 1, 4),
-(4, 'PKG-B4R944', 1, 6),
-(5, 'PKG-QV4181', 1, 7),
-(6, 'PKG-F2D341', 1, 8),
-(7, 'PKG-3VX540', 1, 9);
+INSERT INTO `paquete` (`Id`, `Codigo`, `Id_estado`, `Id_user`, `Adultos`, `Menores`) VALUES
+(2, 'PKG-YFZ598', 1, 3, 0, 0),
+(3, 'PKG-26U798', 1, 4, 0, 0),
+(4, 'PKG-B4R944', 1, 6, 0, 0),
+(5, 'PKG-QV4181', 1, 7, 0, 0),
+(6, 'PKG-F2D341', 1, 8, 0, 0),
+(7, 'PKG-3VX540', 1, 9, 0, 0),
+(8, 'PKG-FHS737', 2, 10, 0, 0),
+(9, 'PKG-AFG340', 2, 10, 0, 0),
+(10, 'PKG-WPE653', 2, 10, 0, 0),
+(11, 'PKG-LJV895', 1, 10, 0, 0),
+(12, 'PKG-DXM773', 2, 11, 0, 0),
+(13, 'PKG-W1O761', 1, 11, 0, 0),
+(14, 'PKG-ARS519', 1, 12, 0, 0),
+(15, 'PKG-PJO865', 2, 13, 0, 0),
+(16, 'PKG-POH956', 1, 13, 0, 0),
+(17, 'PKG-KMB291', 2, 14, 0, 0),
+(18, 'PKG-54Z980', 3, 14, 2, 1),
+(19, 'PKG-ODN889', 1, 14, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -113,10 +127,40 @@ INSERT INTO `paquete` (`Id`, `Codigo`, `Id_estado`, `Id_user`) VALUES
 CREATE TABLE `part_paq` (
   `Id` int(11) NOT NULL,
   `Id_art` int(11) DEFAULT NULL,
-  `Id_paquete` int(11) DEFAULT NULL,
-  `Adultos` int(11) DEFAULT 0,
-  `Menores` int(11) DEFAULT 0
+  `Id_paquete` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `part_paq`
+--
+
+INSERT INTO `part_paq` (`Id`, `Id_art`, `Id_paquete`) VALUES
+(1, 6, 8),
+(2, 3, 8),
+(3, 15, 8),
+(4, 16, 8),
+(5, 7, 8),
+(6, 7, 9),
+(7, 15, 9),
+(8, 3, 9),
+(9, 8, 10),
+(10, 12, 10),
+(11, 5, 12),
+(12, 10, 12),
+(13, 16, 12),
+(14, 15, 12),
+(15, 5, 15),
+(16, 6, 15),
+(17, 4, 15),
+(18, 15, 17),
+(19, 12, 17),
+(20, 11, 17),
+(21, 7, 17),
+(22, 2, 17),
+(23, 15, 18),
+(24, 10, 18),
+(25, 6, 18),
+(26, 3, 18);
 
 -- --------------------------------------------------------
 
@@ -143,7 +187,12 @@ INSERT INTO `usuario` (`Id`, `Nombre`, `Contraseña`, `Email`, `Rol`, `Dni`) VAL
 (6, 'David Tejedor', 'raul_jeje', 'davidtest@gmail.com', 'user', '12345679'),
 (7, 'Carolina Diaz', 'caro_me_ama', 'carolina@test.com', 'user', '47777200'),
 (8, 'Lionel Messi', '$2b$10$FKYgYRyhWo1fA3zXCw/VFeYLliZ7ZJFcF6vRHchhPpVZug.BYP/KS', 'messi@gmail.com', 'user', '10101010'),
-(9, 'David Tejedor', '$2b$10$0WiIet39X59LLlVYCDDKGOnMjOM3FMXUsnW5F3tE5G6UA7RUEg03m', 'david@gmail.com', 'admin', '18181818');
+(9, 'David Tejedor', '$2b$10$0WiIet39X59LLlVYCDDKGOnMjOM3FMXUsnW5F3tE5G6UA7RUEg03m', 'david@gmail.com', 'admin', '18181818'),
+(10, 'David Tejedor', '$2b$10$ETW0LB.1ig05seACLHBfP.hB1B8Mkrji107FyY0tHWb0uYewzlf/y', 'davo@gmail.com', 'user', '12121212'),
+(11, 'yamil quinotos', '$2b$10$iuSNOusnGlzwQaZ3aAfQee/F4rQn391vAqlpQHuOdFWBn5fszpl5y', 'yamil@gmail.com', 'user', '13131313'),
+(12, 'yair quinotos', '$2b$10$a4140bhq0GuySmnyovAKieBQHIZ1sdslkm//9kbEscA2LwpY7PdNK', 'yi@gmail.com', 'user', '13131315'),
+(13, 'Carolina Diaz', '$2b$10$SN.v5C8VXJoeL9iNwOt.XOe9mNDDB8YcC6TtkF1bgR7M95lge4Fqu', 'carolina@gmail.com', 'user', '09090909'),
+(14, 'David Tejedor', '$2b$10$lLddaLHbj2DgAYY8PSmhcu24O0b3ZcfqXcfdDEVsSGs2/8UsbhS/a', 'david@test.com', 'user', '28282828');
 
 --
 -- Índices para tablas volcadas
@@ -206,19 +255,19 @@ ALTER TABLE `estado_paq`
 -- AUTO_INCREMENT de la tabla `paquete`
 --
 ALTER TABLE `paquete`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT de la tabla `part_paq`
 --
 ALTER TABLE `part_paq`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- Restricciones para tablas volcadas

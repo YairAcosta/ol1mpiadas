@@ -1,5 +1,3 @@
-// src/app/page.tsx
-
 "use client";
 
 import React, { useEffect, useState } from "react";
@@ -7,7 +5,7 @@ import { motion } from "framer-motion";
 import { ChevronRight } from "lucide-react";
 import Card from "./components/Card";
 import axios from "axios";
-import { Articulo } from "../types/Articulos";
+import { Articulo } from "./types/Art&Paq";
 
 export default function Home() {
   const [articulos, setArticulos] = useState<Articulo[]>([]);
@@ -28,8 +26,8 @@ export default function Home() {
       } catch (err: any) {
         setError(
           err.response?.data?.message ||
-            err.message ||
-            "Ocurrió un error inesperado."
+          err.message ||
+          "Ocurrió un error inesperado."
         );
         console.error("Error al cargar vuelos:", err);
       } finally {

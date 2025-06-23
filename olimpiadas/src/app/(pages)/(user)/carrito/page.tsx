@@ -1,12 +1,11 @@
-// src/app/carrito/page.tsx
 "use client";
 import { motion } from "framer-motion";
-import { useCart } from "@/src/context/cartContext";
-import { Articulo } from "@/src/types/Articulos";
-import { registerPedidoRQ } from "@/src/app/api/auth";
+import { useCart } from "@/src/app/context/cartContext";
+import { Articulo } from "@/src/app/types/Art&Paq";
+import { registerPedidoRQ } from "@/src/app/api/paquetes";
 import axios, { AxiosError } from "axios";
 import React, { useState } from "react";
-import { useAuth } from "@/src/context/authContext";
+import { useAuth } from "@/src/app/context/authContext";
 import { useRouter } from "next/navigation";
 const Carrito = () => {
   const { cartItems, removeFromCart, clearCart } = useCart();
@@ -97,10 +96,9 @@ const Carrito = () => {
             error?: string;
           };
           alert(
-            `Error al registrar pedido: ${
-              errorData.message ||
-              errorData.error ||
-              "Mensaje de error desconocido del servidor."
+            `Error al registrar pedido: ${errorData.message ||
+            errorData.error ||
+            "Mensaje de error desconocido del servidor."
             }`
           );
         } else if (axiosError.request) {

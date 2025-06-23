@@ -7,7 +7,6 @@ export interface UserPayload {
     role: string;
     iat?: number; // Campo "issued at" (fecha de emisión), añadido por JWT
     exp?: number; // Campo "expiration" (fecha de expiración), añadido por JWT
-    // Puedes añadir otras propiedades que incluyas en el token (ej. isAdmin: boolean)
 }
 
 // Extensión de la Interfaz Request de Express

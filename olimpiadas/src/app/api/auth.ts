@@ -1,6 +1,7 @@
 import axios, { AxiosResponse } from "axios";
 import { formRegister, formLogin } from "../../server/schemas/user.schema";
-import { UserApiResponse, RegisterPedidoPayload } from "@/src/types/ApiResponse";
+import { UserApiResponse, RegisterPedidoPayload } from "@/src/app/types/ApiResponse";
+import { FullPackageData } from "../types/Art&Paq";
 
 const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api";
 
@@ -29,11 +30,6 @@ export const profileRQ = (): Promise<AxiosResponse<{ message: string; user: User
     });
 };
 
-export const registerPedidoRQ = (payload: RegisterPedidoPayload): Promise<AxiosResponse<{ message: string; paqueteProcesado: any; nuevoPaquete: any }>> => {
-    return axios.post(`${API}/paquete/registrarPedido`, payload, { // Envía directamente el objeto payload
-        withCredentials: true,
-    });
-};
 
 
 

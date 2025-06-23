@@ -1,14 +1,14 @@
-// src/app/components/Card.tsx
 import { motion } from "framer-motion";
-import { Articulo } from "@/src/types/Articulos";
-import { useCart } from "@/src/context/cartContext";
+import { Articulo } from "@/src/app/types/Art&Paq";
+import { useCart } from "@/src/app/context/cartContext";
 import toast from "react-hot-toast";
 
 type CardProps = {
   articulo: Articulo;
+  disableAddToCartButton?: boolean;
 };
 
-export default function Card({ articulo }: CardProps) {
+export default function Card({ articulo, disableAddToCartButton }: CardProps) {
   const { Titulo, Descripcion, Precio_uni, Tipo, UnidadMedida } = articulo;
   const { addToCart } = useCart();
 
@@ -30,7 +30,6 @@ export default function Card({ articulo }: CardProps) {
 
   const handleAddToCart = () => {
     addToCart(articulo);
-    // Cambia el alert() por un toast
     toast.success(`${Titulo} agregado al carrito!`, {
       position: "bottom-right",
       duration: 2000,
@@ -56,7 +55,8 @@ export default function Card({ articulo }: CardProps) {
       <div className="absolute -inset-2 bg-[radial-gradient(circle_at_top,rgba(124,58,237,0.3)_0%,transparent_70%)] opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
 
       <div className="relative z-10 flex flex-col h-full p-5 gap-3">
-        <div className="w-full h-24 rounded-xl bg-gradient-to-br from-violet-300 to-violet-500 relative overflow-hidden">
+        {/* Aquí podrías poner una imagen real o un placeholder */}
+        <div className="w-full h-24 rounded-xl bg-gradient-to-br from-violet-300 to-violet-500 relative overflow-hidden flex items-center justify-center text-white text-xl font-bold">
           <span className="absolute top-2 left-2 bg-white/70 text-violet-800 text-xs font-semibold px-2 py-0.5 rounded-full z-20 capitalize">
             {Tipo}
           </span>
@@ -81,25 +81,27 @@ export default function Card({ articulo }: CardProps) {
             {getPrecioUnidadTexto(UnidadMedida)}{" "}
           </p>
 
-          <button
-            onClick={handleAddToCart}
-            className="w-7 h-7 cursor-pointer bg-violet-600 rounded-full flex items-center justify-center text-white hover:shadow-[0_0_0_4px_rgba(124,58,237,0.2)] transition-all"
-          >
-            <motion.svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              width="16"
-              height="16"
-              stroke="currentColor"
-              fill="currentColor"
-              strokeWidth="2"
-              initial={{ scale: 1 }}
-              animate={{ scale: [1, 1.2, 1] }}
-              transition={{ repeat: Infinity, duration: 1.5 }}
+          {!disableAddToCartButton && (
+            <button
+              onClick={handleAddToCart}
+              className="w-7 h-7 cursor-pointer bg-violet-600 rounded-full flex items-center justify-center text-white hover:shadow-[0_0_0_4px_rgba(124,58,237,0.2)] transition-all"
             >
-              <path d="M4 12H20M12 4V20" />
-            </motion.svg>
-          </button>
+              <motion.svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                width="16"
+                height="16"
+                stroke="currentColor"
+                fill="currentColor"
+                strokeWidth="2"
+                initial={{ scale: 1 }}
+                animate={{ scale: [1, 1.2, 1] }}
+                transition={{ repeat: Infinity, duration: 1.5 }}
+              >
+                <path d="M4 12H20M12 4V20" />
+              </motion.svg>
+            </button>
+          )}
         </div>
       </div>
     </motion.div>

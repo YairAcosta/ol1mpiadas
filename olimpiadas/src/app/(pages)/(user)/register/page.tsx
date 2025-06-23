@@ -4,7 +4,7 @@ import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { formRegister, UserRegister } from "@/src/server/schemas/user.schema";
 import { FiEye, FiEyeOff } from "react-icons/fi";
-import { useAuth } from "@/src/context/authContext";
+import { useAuth } from "@/src/app/context/authContext";
 import { useRouter } from "next/navigation";
 import { registerRQ } from "@/src/app/api/auth";
 

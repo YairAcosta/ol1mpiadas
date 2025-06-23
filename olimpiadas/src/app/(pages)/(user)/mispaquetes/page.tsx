@@ -1,79 +1,96 @@
 "use client";
-import { motion } from "framer-motion";
-import { ChevronRight } from "lucide-react";
+import { FullPackageData } from "@/src/app/types/Art&Paq";
+import PackageCard from "@/src/app/components/PackageCard";
+import { verMisPaquetesRQ } from "@/src/app/api/paquetes";
+import { useEffect, useState } from "react";
 
 const Paquete = () => {
-  const destinos = [
-    {
-      id: 1,
-      titulo: "Argentina ➜ Brasil, Rio de Janeiro",
-      auto: "Auto ➜ Auto Mediano",
-      hotel: "Hotel ➜ Miramar Hotel by Windsor",
-      excursion: "Excursiones ➜ Cristo redentor",
-      dias: "7 DÍAS",
-      precio: "1.500.000",
-      imagen: "/rio.jpg",
-    },
-    {
-      id: 2,
-      titulo: "Argentina ➜ Brasil, Rio de Janeiro",
-      auto: "Auto ➜ Auto Medanos",
-      hotel: "Hotel ➜ Atlântico Prime",
-      excursion: "Excursiones ➜ Cristo redentor",
-      dias: "7 DÍAS",
-      precio: "1.500.000",
-      imagen: "/rio.jpg",
-    },
-    {
-      id: 3,
-      titulo: "Argentina ➜ Brasil, Rio de Janeiro",
-      auto: "Auto ➜ Auto Económico",
-      hotel: "Hotel ➜ Rio Othon Palace",
-      excursion: "Excursiones ➜ Cristo redentor",
-      dias: "7 DÍAS",
-      precio: "1.500.000",
-      imagen: "/rio.jpg",
-    },
-  ];
+  const [paquetes, setPaquetes] = useState<FullPackageData[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
+  // useEffect para cargar los paquetes cuando el componente se monte
+  useEffect(() => {
+    const fetchPaquetes = async () => {
+      try {
+        setLoading(true); // Activa el estado de carga
+        setError(null); // Limpia cualquier error previo
+
+        // Llama a la función de petición al backend
+        const response = await verMisPaquetesRQ();
+        setPaquetes(response.data); // Asigna los datos obtenidos a nuestro estado
+      } catch (err: any) {
+        // Manejo de errores
+        console.error("Error al obtener los paquetes:", err);
+        setError(
+          err.response?.data?.error ||
+            "Error al cargar tus paquetes. Inténtalo de nuevo."
+        );
+      } finally {
+        setLoading(false); // Desactiva el estado de carga, haya éxito o error
+      }
+    };
+
+    fetchPaquetes(); // Ejecuta la función de carga
+  }, []); // El array vacío asegura que se ejecute solo una vez al montar el componente
+
+  // Renderizado condicional basado en el estado de carga y error
+  if (loading) {
+    return (
+      <section className="bg-white px-4 sm:px-6 py-6 text-center font-sans">
+        <h2 className="text-base sm:text-lg text-gray-800 font-normal mb-6">
+          Cargando tus paquetes...
+        </h2>
+        {/* Aquí podrías añadir un spinner o animación de carga */}
+        <p>Por favor, espera.</p>
+      </section>
+    );
+  }
+
+  if (error) {
+    return (
+      <section className="bg-white px-4 sm:px-6 py-6 text-center font-sans">
+        <h2 className="text-base sm:text-lg text-red-600 font-normal mb-6">
+          ¡Ocurrió un error!
+        </h2>
+        <p className="text-gray-700">{error}</p>
+        <p className="text-gray-500 mt-2">
+          Asegúrate de haber iniciado sesión.
+        </p>
+      </section>
+    );
+  }
+
+  if (paquetes.length === 0) {
+    return (
+      <section className="bg-white px-4 sm:px-6 py-6 text-center font-sans">
+        <h2 className="text-base sm:text-lg text-gray-800 font-normal mb-6">
+          No tienes paquetes registrados aún.
+        </h2>
+        <p className="text-gray-700">
+          ¡Es hora de planificar tu próxima aventura!
+        </p>
+      </section>
+    );
+  }
+
+  // Si hay paquetes, los renderizamos
   return (
     <>
       <section className="bg-white px-4 sm:px-6 py-6 text-center font-sans">
         <h2 className="text-base sm:text-lg text-gray-800 font-normal mb-6">
-          Tu próximo destino, en paquete y al mejor precio
+          Tus paquetes de viaje
         </h2>
 
-        <div className="flex gap-4 overflow-x-auto pb-4">
-          {destinos.map((destino) => (
-            <motion.div
-              key={destino.id}
-              className="min-w-[250px] max-w-[250px] bg-white border border-blue-600 rounded-md shadow-sm overflow-hidden"
-              whileHover={{ scale: 1.03 }}
-              transition={{ type: "spring", stiffness: 200 }}
-            >
-              <img
-                src={destino.imagen}
-                alt="Destino"
-                className="w-full h-[140px] object-cover"
-              />
-              <div className="p-3 text-left text-sm text-gray-700 leading-tight space-y-1">
-                <div className="flex justify-between items-center mb-1">
-                  <div className="text-yellow-500">★ ★ ★ ★ ★</div>
-                  <span className="bg-black text-white text-xs px-2 py-0.5 rounded-full">
-                    {destino.dias}
-                  </span>
-                </div>
-                <p>
-                  <b>{destino.titulo}</b>
-                </p>
-                <p>{destino.auto}</p>
-                <p>{destino.hotel}</p>
-                <p>{destino.excursion}</p>
-                <p>
-                  <b>Precio Total = {destino.precio}</b>
-                </p>
-              </div>
-            </motion.div>
+        <div className="flex flex-wrap justify-center gap-6 pb-4">
+          {/* Mapea los paquetes reales y renderiza un PackageCard por cada uno */}
+          {paquetes.map((paquete) => (
+            <PackageCard
+              key={paquete.Id}
+              paquete={paquete}
+              partPaqs={paquete.articulosEnPaquete}
+              estadoPaq={paquete.estado}
+            />
           ))}
         </div>
       </section>

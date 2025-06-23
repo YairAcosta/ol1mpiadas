@@ -12,6 +12,7 @@
   "dependencies": {
     "@hookform/resolvers": "^5.1.1",
     "@types/bcryptjs": "^2.4.6",
+    "@types/nodemailer": "^6.4.17",
     "axios": "^1.10.0",
     "bcrypt": "^6.0.0",
     "bcryptjs": "^3.0.2",
@@ -22,8 +23,10 @@
     "framer-motion": "^12.17.3",
     "jsonwebtoken": "^9.0.2",
     "lucide-react": "^0.514.0",
+    "mercadopago": "^2.8.0",
     "mysql2": "^3.14.1",
     "next": "15.3.3",
+    "nodemailer": "^7.0.3",
     "nodemon": "^3.1.10",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
